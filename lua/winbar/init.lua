@@ -23,8 +23,14 @@ local function construct_winbar(buffers)
 	for _, buffer in ipairs(buffers) do
 		if vim.fn.buflisted(buffer) == 1 then
 			local fn = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":~:.")
-			local ft, _ = vim.filetype.match({ filename = fn })
-			local icon, color = require("nvim-web-devicons").get_icon_by_filetype(ft, {})
+            local ext = vim.fn.fnamemodify(fn, ":e")
+            local icon, color
+            if fn == "Makefile" then
+                icon, color = require("nvim-web-devicons").get_icon("makefile", "", {})
+            else
+                icon, color = require("nvim-web-devicons").get_icon(fn, ext, {})
+            end
+
 			local bufinfo = vim.fn.getbufinfo(buffer)[1]
 			local winbar_object
 			if icon and color then
