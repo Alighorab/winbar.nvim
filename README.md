@@ -4,15 +4,17 @@
 - It does not show special buffers like: `packer`, `help`, `NvimTree`, 
 or `floating windows`
 
-## Installing
 ---
+## Installing
 With [packer.nvim]:
 ````lua
-use("Alighorab/winbar.lua")
+use("Alighorab/winbar.lua", {
+    requires = {'nvim-tree/nvim-web-devicons'}
+})
 ````
 
-## Usage
 ---
+## Usage
 - Somewhere in your `init.lua`:
 ````lua
 require("winbar").setup()
