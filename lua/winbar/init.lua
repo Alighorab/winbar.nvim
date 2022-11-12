@@ -1,5 +1,15 @@
 local M = {}
 
+local function table_contains(tbl, x)
+	local found = false
+	for _, v in pairs(tbl) do
+		if v == x then
+			found = true
+		end
+	end
+	return found
+end
+
 local function buf_is_attached(buffer)
 	local current_buf = vim.api.nvim_get_current_buf()
 	if current_buf == buffer then
@@ -12,9 +22,9 @@ local function construct_winbar(buffers)
 	local results = ""
 	for _, buffer in ipairs(buffers) do
 		if vim.fn.buflisted(buffer) == 1 then
-			local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":~:.")
-			local ext = vim.fn.fnamemodify(filename, ":e")
-			local icon, color = require("nvim-web-devicons").get_icon(filename, ext, {})
+			local fn = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":~:.")
+			local ft, _ = vim.filetype.match({ filename = fn })
+			local icon, color = require("nvim-web-devicons").get_icon_by_filetype(ft, {})
 			local bufinfo = vim.fn.getbufinfo(buffer)[1]
 			local winbar_object
 			if icon and color then
@@ -23,12 +33,12 @@ local function construct_winbar(buffers)
 				winbar_object = ""
 			end
 			if buf_is_attached(buffer) then
-				winbar_object = winbar_object .. "%*" .. filename .. "%m "
+				winbar_object = winbar_object .. "%*" .. fn .. "%m "
 			else
 				if bufinfo.changed == 1 then
-					winbar_object = winbar_object .. "%#LineNr#" .. filename .. "[+]" .. "%* "
+					winbar_object = winbar_object .. "%#LineNr#" .. fn .. "[+]" .. "%* "
 				else
-					winbar_object = winbar_object .. "%#LineNr#" .. filename .. "%* "
+					winbar_object = winbar_object .. "%#LineNr#" .. fn .. "%* "
 				end
 			end
 			results = results .. winbar_object
@@ -37,12 +47,19 @@ local function construct_winbar(buffers)
 	return results
 end
 
+local blacklist = {
+	"help",
+	"NvimTree",
+	"fugitive",
+	"gitcommit",
+	"",
+}
+
 local function find_buffers()
 	local buffers = vim.api.nvim_list_bufs()
 	local ft = vim.bo.filetype
 
-	-- Ignore help, NvimTree, and non-type windows
-	if ft == "help" or ft == "NvimTree" or ft == "" then
+	if table_contains(blacklist, ft) then
 		return nil
 	end
 	-- Ignore floating windows
@@ -54,12 +71,12 @@ local function find_buffers()
 end
 
 function M.setup()
-    vim.api.nvim_create_autocmd("BufWinEnter", {
-        group = vim.api.nvim_create_augroup("WinBarGroup", {}),
-        callback = function()
-            vim.opt_local.winbar = find_buffers()
-        end,
-    })
+	vim.api.nvim_create_autocmd("BufWinEnter", {
+		group = vim.api.nvim_create_augroup("WinBarGroup", {}),
+		callback = function()
+			vim.opt_local.winbar = find_buffers()
+		end,
+	})
 end
 
 return M
