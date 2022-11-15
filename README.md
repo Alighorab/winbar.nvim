@@ -23,7 +23,16 @@ use("Alighorab/winbar.lua", {
 ## Usage
 Somewhere in your `init.lua`:
 ````lua
-require("winbar").setup()
+require("winbar").setup({})
 ````
+
+## Options
+Default options are:
+````lua
+options = {
+    filename = "relative" -- could be "relative", "abs", or "shor"
+}
+````
+
 
 [packer.nvim]: https://github.com/wbthomason/packer.nvim
