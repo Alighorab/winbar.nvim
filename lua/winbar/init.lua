@@ -1,5 +1,17 @@
 local M = {}
 
+local blacklist = {
+	"help",
+	"NvimTree",
+	"fugitive",
+	"gitcommit",
+    "Trouble",
+    "dashboard",
+    "toggleterm",
+    "git",
+	"",
+}
+
 local function table_contains(tbl, x)
 	local found = false
 	for _, v in pairs(tbl) do
@@ -52,14 +64,6 @@ local function construct_winbar(buffers)
 	end
 	return results
 end
-
-local blacklist = {
-	"help",
-	"NvimTree",
-	"fugitive",
-	"gitcommit",
-	"",
-}
 
 local function find_buffers()
 	local buffers = vim.api.nvim_list_bufs()
