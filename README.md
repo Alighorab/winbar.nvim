@@ -1,4 +1,9 @@
 # Winbar.nvim
+
+<p align="center">
+  <img src="./media/demo.gif" />
+</p>
+
 - A simple winbar plugin written in Lua.
 - It just shows the currently open buffers.
 - It does not show special buffers like: `packer`, `help`, `NvimTree`, 
@@ -33,6 +38,9 @@ options = {
     filename = "relative" -- could be "relative", "abs", or "shor"
 }
 ````
+
+## TO-DO
+- Check window width to fit many buffers.
 
 
 [packer.nvim]: https://github.com/wbthomason/packer.nvim
