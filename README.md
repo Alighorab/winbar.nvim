@@ -10,6 +10,11 @@
 or `floating windows`
 
 ---
+## Requirements
+- **Neovim 0.8.0 or later** build (latest [nightly] recommended)
+- [`nvim-tree/nvim-web-devicons`] plugin
+
+---
 ## Installing
 With [packer.nvim]
 ````lua
@@ -35,7 +40,7 @@ require("winbar").setup({})
 Default options are:
 ````lua
 options = {
-    filename = "relative" -- could be "relative", "abs", or "shor"
+    filename = "relative" -- could be "relative", "abs", or "short"
 }
 ````
 
@@ -44,3 +49,5 @@ options = {
 
 
 [packer.nvim]: https://github.com/wbthomason/packer.nvim
+[nightly]: https://github.com/neovim/neovim#install-from-source
+[`nvim-tree/nvim-web-devicons`]: https://github.com/nvim-tree/nvim-web-devicons
