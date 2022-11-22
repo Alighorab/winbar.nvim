@@ -18,13 +18,13 @@ or `floating windows`
 ## Installing
 With [packer.nvim]
 ````lua
-use("Alighorab/winbar.lua", {
+use("Alighorab/winbar.nvim", {
     requires = {'nvim-tree/nvim-web-devicons'}
 })
 ````
 or
 ````lua
-use("Alighorab/winbar.lua", {
+use("Alighorab/winbar.nvim", {
     requires = {'nvim-tree/nvim-web-devicons'},
     config = require("winbar").setup()
 })
