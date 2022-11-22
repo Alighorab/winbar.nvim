@@ -9,6 +9,8 @@ local blacklist = {
     "dashboard",
     "toggleterm",
     "git",
+    "qf",
+    "packer",
 	"",
 }
 
@@ -25,16 +27,6 @@ local bufopts = {
         ext = function(bufnr) return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":e") end,
     }
 }
-
-local function table_contains(tbl, x)
-	local found = false
-	for _, v in pairs(tbl) do
-		if v == x then
-			found = true
-		end
-	end
-	return found
-end
 
 local function buf_is_attached(buffer)
 	local current_buf = vim.api.nvim_get_current_buf()
@@ -107,7 +99,7 @@ local function find_buffers()
 	local buffers = vim.api.nvim_list_bufs()
 	local ft = vim.bo.filetype
 
-	if table_contains(blacklist, ft) then
+	if vim.tbl_contains(blacklist, ft) then
 		return nil
 	end
 	-- Ignore floating windows
@@ -124,7 +116,12 @@ function M.setup(options)
             opts[k] = v
         end
     end
-	vim.api.nvim_create_autocmd({"BufWinEnter", "BufLeave"}, {
+	vim.api.nvim_create_autocmd({
+        "BufWinEnter",
+        "BufLeave",
+        "BufDelete",
+        "BufEnter"
+    }, {
 		group = vim.api.nvim_create_augroup("WinBarGroup", {}),
 		callback = function()
 			vim.opt_local.winbar = find_buffers()
