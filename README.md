@@ -45,7 +45,7 @@ options = {
 ````
 
 ## TO-DO
-- Check window width to fit many buffers.
+- [ ] Check window width to fit many buffers.
 
 
 [packer.nvim]: https://github.com/wbthomason/packer.nvim
